@@ -1,754 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Premium — Full Stack Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <meta name="description" content="Syed Abdul Aman builds practical AI tools, developer infrastructure, and open-source software. Explore projects, engineering notes, and ways to connect.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Syed Abdul Aman | AI Engineer & Open-Source Builder">
+  <meta property="og:description" content="Building useful AI tools, developer infrastructure, and open-source software.">
+  <meta property="og:url" content="https://p-r-e-m-i-u-m.github.io/">
+  <title>Syed Abdul Aman | AI Engineer & Open-Source Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --bg: #0d1117;
-      --bg2: #161b22;
-      --bg3: #21262d;
-      --border: #30363d;
-      --text: #e6edf3;
-      --muted: #7d8590;
-      --green: #3fb950;
-      --blue: #58a6ff;
-      --purple: #bc8cff;
-      --orange: #ffa657;
-      --red: #f85149;
+      color-scheme: dark;
+      --bg: #11110f;
+      --surface: #191916;
+      --surface-2: #20201b;
+      --line: rgba(235, 229, 211, .12);
+      --text: #eeeade;
+      --muted: #a09d90;
+      --soft: #747267;
+      --accent: #d4b77a;
+      --accent-bright: #ead5a3;
+      --green: #a9b99a;
+      --serif: "Instrument Serif", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --mono: "DM Mono", monospace;
+      --max: 1120px;
     }
-
-    html { scroll-behavior: smooth; }
-
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: var(--sans); line-height: 1.65; overflow-x: hidden;
     }
-
-    /* SCROLLBAR */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      background: rgba(13,17,23,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 60px;
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+      background: radial-gradient(ellipse at 82% 5%, rgba(176,145,88,.11), transparent 34%),
+                  radial-gradient(ellipse at 8% 42%, rgba(121,137,105,.07), transparent 32%);
     }
-
-    .nav-logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1rem; font-weight: 500;
-      color: var(--green);
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 4px; }
+    .shell { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line);
+      background: rgba(17,17,15,.82); backdrop-filter: blur(18px);
     }
-
-    .nav-logo span { color: var(--muted); }
-
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--muted); text-decoration: none;
-      font-size: 0.875rem; font-weight: 500;
-      transition: color 0.2s;
+    .nav { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 700; letter-spacing: -.04em; }
+    .brand-mark {
+      display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid rgba(212,183,122,.55);
+      border-radius: 10px; color: var(--accent-bright); font: 15px var(--serif); transform: rotate(-5deg);
     }
-    .nav-links a:hover { color: var(--text); }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      padding: 80px 2rem 2rem;
-      position: relative;
-      overflow: hidden;
+    .brand-name { font-size: 14px; letter-spacing: .02em; }
+    .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; padding: 0; margin: 0; }
+    .nav-links a { color: var(--muted); font-size: 12px; text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--accent-bright); }
+    .nav-cta { border: 1px solid rgba(212,183,122,.5); padding: 9px 15px; border-radius: 3px; color: var(--accent-bright)!important; }
+    .menu-toggle { display: none; background: none; border: 1px solid var(--line); color: var(--text); padding: 8px 11px; border-radius: 3px; font: 12px var(--mono); }
+    .hero { min-height: 690px; display: grid; align-items: center; padding: 110px 0 95px; position: relative; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); gap: 65px; align-items: end; }
+    .eyebrow { display: flex; align-items: center; gap: 12px; color: var(--accent); font: 10px var(--mono); letter-spacing: .17em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--accent); }
+    h1 { margin: 27px 0 23px; max-width: 760px; font-size: clamp(54px, 7.6vw, 100px); line-height: .98; letter-spacing: -.065em; font-weight: 500; }
+    h1 .serif { color: var(--accent-bright); font: italic 1.08em/ .9 var(--serif); letter-spacing: -.035em; }
+    .hero-copy { max-width: 590px; margin: 0; color: #b5b1a5; font-size: 16px; line-height: 1.85; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; margin-top: 34px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      min-height: 46px; padding: 0 18px; text-decoration: none; font-size: 12px; font-weight: 600;
+      border: 1px solid var(--line); transition: transform .2s, background .2s, border-color .2s;
     }
-
-    .hero::before {
-      content: '';
-      position: absolute; top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(ellipse at 60% 40%, rgba(63,185,80,0.06) 0%, transparent 60%),
-                  radial-gradient(ellipse at 30% 70%, rgba(88,166,255,0.06) 0%, transparent 60%);
-      pointer-events: none;
+    .button:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .button.primary { color: #181711; background: var(--accent); border-color: var(--accent); }
+    .button.primary:hover { background: var(--accent-bright); }
+    .button .arrow { font-size: 16px; line-height: 1; }
+    .hero-aside { border-left: 1px solid var(--line); padding: 8px 0 8px 25px; margin-bottom: 8px; }
+    .aside-label { color: var(--soft); font: 10px var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+    .aside-value { margin: 10px 0 24px; color: var(--text); font-size: 14px; }
+    .aside-value:last-child { margin-bottom: 0; }
+    .availability { display: inline-flex; align-items: center; gap: 9px; color: var(--green); font: 11px var(--mono); }
+    .availability::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px rgba(169,185,154,.7); }
+    .scroll-note { position: absolute; bottom: 30px; left: max(24px, calc((100vw - var(--max))/2)); color: var(--soft); font: 9px var(--mono); letter-spacing: .16em; text-transform: uppercase; writing-mode: vertical-rl; }
+    .section { padding: 112px 0; border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 180px 1fr; gap: 36px; margin-bottom: 52px; }
+    .section-index { color: var(--accent); font: 11px var(--mono); letter-spacing: .12em; padding-top: 11px; }
+    .section-title { max-width: 690px; margin: 0; font-size: clamp(34px, 4.5vw, 55px); font-weight: 500; letter-spacing: -.055em; line-height: 1.08; }
+    .section-title em { color: var(--accent-bright); font: italic 1.08em var(--serif); letter-spacing: -.02em; }
+    .about-grid { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 36px; }
+    .about-note { color: var(--soft); font: 10px/1.8 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+    .about-copy { max-width: 760px; color: #b5b1a5; font-size: 16px; line-height: 1.95; }
+    .about-copy p { margin: 0 0 18px; }
+    .about-copy strong { color: var(--text); font-weight: 600; }
+    .principles { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 48px; }
+    .principle { background: var(--bg); padding: 22px; min-height: 140px; }
+    .principle-num { color: var(--accent); font: 10px var(--mono); }
+    .principle h3 { margin: 17px 0 7px; font-size: 14px; font-weight: 600; }
+    .principle p { margin: 0; color: var(--soft); font-size: 12px; line-height: 1.7; }
+    .project-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+    .project {
+      position: relative; min-height: 300px; display: flex; flex-direction: column; padding: 27px;
+      border: 1px solid var(--line); background: linear-gradient(145deg, rgba(255,255,255,.025), transparent 65%), var(--surface);
+      text-decoration: none; transition: border-color .25s, transform .25s, background .25s;
     }
-
-    .hero-content { max-width: 860px; width: 100%; position: relative; }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 999px; padding: 0.35rem 1rem;
-      font-size: 0.8rem; color: var(--muted);
-      margin-bottom: 2rem;
+    .project:hover { border-color: rgba(212,183,122,.6); transform: translateY(-4px); background-color: #1d1d18; }
+    .project-top { display: flex; justify-content: space-between; align-items: center; }
+    .project-type { color: var(--accent); font: 9px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+    .project-arrow { color: var(--soft); font-size: 19px; transition: transform .2s, color .2s; }
+    .project:hover .project-arrow { color: var(--accent-bright); transform: translate(3px,-3px); }
+    .project h3 { margin: 40px 0 12px; font-size: 25px; letter-spacing: -.045em; font-weight: 500; }
+    .project p { max-width: 470px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 27px; }
+    .tag { padding: 5px 8px; border: 1px solid var(--line); color: #aaa698; font: 9px var(--mono); }
+    .project-feature { grid-column: span 2; min-height: 250px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: end; }
+    .project-feature h3 { margin-top: 27px; font-size: 30px; }
+    .project-feature .tags { margin-top: 0; }
+    .project-feature .feature-side { color: var(--soft); font: 11px/1.9 var(--mono); border-left: 1px solid var(--line); padding-left: 24px; }
+    .skills-layout { display: grid; grid-template-columns: 180px 1fr; gap: 36px; }
+    .skills-list { border-top: 1px solid var(--line); }
+    .skill-row { display: grid; grid-template-columns: 220px 1fr; gap: 25px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .skill-row h3 { margin: 0; font-size: 14px; font-weight: 600; }
+    .skill-row p { margin: 0; color: var(--muted); font-size: 13px; }
+    .connect { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: end; }
+    .connect h2 { max-width: 570px; margin: 0; font-size: clamp(42px, 6vw, 75px); line-height: .98; letter-spacing: -.06em; font-weight: 500; }
+    .connect h2 em { color: var(--accent-bright); font: italic 1.08em var(--serif); }
+    .connect-side p { max-width: 390px; color: var(--muted); font-size: 14px; line-height: 1.85; margin: 0 0 23px; }
+    .social-links { display: flex; flex-wrap: wrap; gap: 10px 20px; }
+    .social-links a { color: var(--text); font: 11px var(--mono); text-decoration: none; border-bottom: 1px solid rgba(212,183,122,.35); padding-bottom: 5px; }
+    .social-links a:hover { color: var(--accent-bright); border-color: var(--accent-bright); }
+    footer { border-top: 1px solid var(--line); padding: 24px 0 30px; color: var(--soft); font: 10px var(--mono); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto!important; animation-duration: .01ms!important; transition-duration: .01ms!important; }
+      .reveal { opacity: 1; transform: none; }
     }
-
-    .badge-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 700; line-height: 1.1;
-      margin-bottom: 1rem; letter-spacing: -0.02em;
-    }
-
-    .hero h1 .name { color: var(--text); }
-    .hero h1 .role {
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-
-    .hero-desc {
-      font-size: 1.1rem; color: var(--muted);
-      max-width: 560px; margin-bottom: 2.5rem; line-height: 1.7;
-    }
-
-    .hero-desc code {
-      font-family: 'JetBrains Mono', monospace;
-      background: var(--bg3); color: var(--orange);
-      padding: 0.1rem 0.4rem; border-radius: 4px;
-      font-size: 0.9rem;
-    }
-
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.65rem 1.4rem; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 500;
-      text-decoration: none; cursor: pointer;
-      border: none; transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--green); color: #0d1117;
-    }
-    .btn-primary:hover { background: #3dd68c; transform: translateY(-1px); }
-
-    .btn-secondary {
-      background: var(--bg2); color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover { border-color: var(--muted); transform: translateY(-1px); }
-
-    .hero-stats {
-      display: flex; gap: 2.5rem; margin-top: 3.5rem;
-      padding-top: 2rem; border-top: 1px solid var(--border);
-      flex-wrap: wrap;
-    }
-
-    .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
-    .stat-number {
-      font-size: 1.6rem; font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text);
-    }
-    .stat-label { font-size: 0.8rem; color: var(--muted); }
-
-    /* SECTIONS */
-    section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
-
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; color: var(--green);
-      letter-spacing: 0.1em; text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-
-    .section-title {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 700; margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-    }
-
-    .section-desc { color: var(--muted); max-width: 540px; margin-bottom: 3rem; }
-
-    /* SKILLS */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    .skill-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.25rem 1.5rem;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .skill-card:hover { border-color: var(--blue); transform: translateY(-2px); }
-
-    .skill-card-header {
-      display: flex; align-items: center; gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .skill-icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-    }
-
-    .skill-card-title { font-weight: 600; font-size: 0.95rem; }
-    .skill-card-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
-
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
-
-    .tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; padding: 0.2rem 0.6rem;
-      border-radius: 4px; border: 1px solid var(--border);
-      color: var(--muted); background: var(--bg3);
-    }
-
-    /* PROJECTS */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-    }
-
-    .project-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.5rem;
-      display: flex; flex-direction: column; gap: 0.75rem;
-      transition: border-color 0.2s, transform 0.2s;
-      text-decoration: none; color: inherit;
-    }
-    .project-card:hover { border-color: var(--green); transform: translateY(-2px); }
-
-    .project-header { display: flex; align-items: flex-start; justify-content: space-between; }
-
-    .project-name { font-weight: 600; font-size: 1rem; color: var(--blue); }
-    .project-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
-
-    .project-footer {
-      display: flex; align-items: center; gap: 1rem;
-      margin-top: auto; padding-top: 0.5rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .project-lang {
-      display: flex; align-items: center; gap: 0.4rem;
-      font-size: 0.8rem; color: var(--muted);
-    }
-
-    .lang-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-    }
-
-    .project-stars { font-size: 0.8rem; color: var(--muted); }
-
-    /* ACTIVITY */
-    .activity-list { display: flex; flex-direction: column; gap: 0; }
-
-    .activity-item {
-      display: flex; gap: 1rem; padding: 1rem 0;
-      border-bottom: 1px solid var(--border);
-      align-items: flex-start;
-    }
-
-    .activity-icon {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; flex-shrink: 0;
-      margin-top: 0.1rem;
-    }
-
-    .activity-content { flex: 1; }
-    .activity-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
-    .activity-title a { color: var(--blue); text-decoration: none; }
-    .activity-title a:hover { text-decoration: underline; }
-    .activity-time { font-size: 0.78rem; color: var(--muted); }
-
-    /* CONTACT */
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-    }
-
-    .contact-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.5rem;
-      display: flex; align-items: center; gap: 1rem;
-      text-decoration: none; color: inherit;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .contact-card:hover { border-color: var(--purple); transform: translateY(-2px); }
-
-    .contact-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; flex-shrink: 0;
-    }
-
-    .contact-label { font-size: 0.78rem; color: var(--muted); }
-    .contact-value { font-weight: 600; font-size: 0.95rem; margin-top: 0.1rem; }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem; text-align: center;
-      color: var(--muted); font-size: 0.85rem;
-    }
-
-    footer code {
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--green);
-    }
-
-    /* TERMINAL BLOCK */
-    .terminal {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px; overflow: hidden;
-      margin-top: 2rem;
-    }
-
-    .terminal-bar {
-      background: var(--bg3); padding: 0.6rem 1rem;
-      display: flex; align-items: center; gap: 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .terminal-dot {
-      width: 12px; height: 12px; border-radius: 50%;
-    }
-
-    .terminal-body {
-      padding: 1.25rem 1.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem; line-height: 1.8;
-    }
-
-    .t-prompt { color: var(--green); }
-    .t-cmd { color: var(--text); }
-    .t-out { color: var(--muted); }
-    .t-val { color: var(--blue); }
-    .t-str { color: var(--orange); }
-
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .hero-stats { gap: 1.5rem; }
+    @media (max-width: 760px) {
+      .shell { width: min(var(--max), calc(100% - 36px)); }
+      .nav { height: 66px; }
+      .menu-toggle { display: inline-flex; }
+      .nav-links {
+        display: none; position: absolute; top: 65px; left: 0; right: 0; padding: 20px 22px 24px;
+        flex-direction: column; align-items: flex-start; gap: 18px; background: #171713; border-bottom: 1px solid var(--line);
+      }
+      .nav-links.open { display: flex; }
+      .hero { min-height: auto; padding: 100px 0 105px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 45px; }
+      h1 { font-size: clamp(53px, 13vw, 84px); }
+      .hero-aside { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; }
+      .aside-value { margin: 6px 0 10px; }
+      .scroll-note { display: none; }
+      .section { padding: 80px 0; }
+      .section-head, .about-grid, .skills-layout { grid-template-columns: 1fr; gap: 16px; }
+      .section-head { margin-bottom: 34px; }
+      .about-note { display: none; }
+      .principles { grid-template-columns: 1fr; }
+      .principle { min-height: auto; }
+      .project-grid { grid-template-columns: 1fr; }
+      .project-feature { grid-column: auto; grid-template-columns: 1fr; gap: 15px; }
+      .project-feature .feature-side { border-left: 0; border-top: 1px solid var(--line); padding: 15px 0 0; }
+      .skill-row { grid-template-columns: 1fr; gap: 7px; }
+      .connect { grid-template-columns: 1fr; gap: 30px; }
+      .footer-inner { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-
-<nav>
-  <div class="nav-logo">P-r-e-m-i-u-m<span>.dev</span></div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#activity">Activity</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">
-      <div class="badge-dot"></div>
-      Available for opportunities
-    </div>
-
-    <h1>
-      <div class="name">Full Stack Engineer</div>
-      <div class="role">Building production-grade systems</div>
-    </h1>
-
-    <p class="hero-desc">
-      Backend-focused developer working with <code>Node.js</code>, <code>PostgreSQL</code>,
-      and <code>Redis</code>. I build APIs that scale, systems that don't break,
-      and code that other devs actually enjoy reading.
-    </p>
-
-    <div class="hero-actions">
-      <a href="https://github.com/P-r-e-m-i-u-m" class="btn btn-primary" target="_blank">
-        View GitHub Profile
+  <header class="topbar">
+    <nav class="nav shell" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Syed Abdul Aman home">
+        <span class="brand-mark">A.</span><span class="brand-name">SYED ABDUL AMAN</span>
       </a>
-      <a href="#projects" class="btn btn-secondary">
-        See Projects
-      </a>
-    </div>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">MENU +</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Selected work</a></li>
+        <li><a href="#skills">Capabilities</a></li>
+        <li><a class="nav-cta" href="#contact">Let's connect ↗</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-number" id="commits">500+</span>
-        <span class="stat-label">Total Commits</span>
+  <main id="home">
+    <section class="hero shell">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Independent builder · AI & open source</div>
+          <h1>Making useful<br><span class="serif">intelligence</span><br>feel practical.</h1>
+          <p class="hero-copy">I'm Syed Abdul Aman. I build with AI, Python, and open source, turning rough ideas into tools people can actually use. I care about thoughtful engineering, clear interfaces, and software that earns its place.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#work">Explore selected work <span class="arrow">↗</span></a>
+            <a class="button" href="https://github.com/P-r-e-m-i-u-m" target="_blank" rel="noreferrer">GitHub profile <span class="arrow">↗</span></a>
+          </div>
+        </div>
+        <aside class="hero-aside reveal" aria-label="Current focus">
+          <div>
+            <div class="aside-label">Current direction</div>
+            <div class="aside-value">GenAI engineering<br>Developer tools<br>Open-source systems</div>
+          </div>
+          <div>
+            <div class="aside-label">Open to</div>
+            <div class="aside-value">Remote internships<br>Collaborations<br>Interesting problems</div>
+          </div>
+          <div>
+            <div class="aside-label">Based in</div>
+            <div class="aside-value">Working online, across borders</div>
+          </div>
+        </aside>
       </div>
-      <div class="stat-item">
-        <span class="stat-number">14</span>
-        <span class="stat-label">PRs Merged</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">30</span>
-        <span class="stat-label">Issues Tracked</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">365</span>
-        <span class="stat-label">Day Streak Goal</span>
-      </div>
-    </div>
-  </div>
-</section>
+      <div class="scroll-note">Scroll to explore · 01—04</div>
+    </section>
 
-<!-- ABOUT / TERMINAL -->
-<section id="about">
-  <div class="section-label">// about me</div>
-  <div class="section-title">The dev behind the commits</div>
-  <p class="section-desc">
-    I work on backend systems, API design, and developer tooling.
-    Currently focused on building a production-grade Node.js API
-    with Redis, PostgreSQL, Docker, and proper CI/CD.
-  </p>
-
-  <div class="terminal">
-    <div class="terminal-bar">
-      <div class="terminal-dot" style="background:#f85149"></div>
-      <div class="terminal-dot" style="background:#ffa657"></div>
-      <div class="terminal-dot" style="background:#3fb950"></div>
-      <span style="margin-left:0.5rem;font-size:0.78rem;color:var(--muted);font-family:'JetBrains Mono',monospace">
-        ~/P-r-e-m-i-u-m — bash
-      </span>
-    </div>
-    <div class="terminal-body">
-      <div><span class="t-prompt">➜ </span><span class="t-cmd">cat developer.json</span></div>
-      <div class="t-out">{</div>
-      <div class="t-out">&nbsp;&nbsp;<span class="t-val">"name"</span>: <span class="t-str">"Premium"</span>,</div>
-      <div class="t-out">&nbsp;&nbsp;<span class="t-val">"role"</span>: <span class="t-str">"Full Stack Engineer"</span>,</div>
-      <div class="t-out">&nbsp;&nbsp;<span class="t-val">"focus"</span>: <span class="t-str">"Backend Systems &amp; API Design"</span>,</div>
-      <div class="t-out">&nbsp;&nbsp;<span class="t-val">"stack"</span>: [<span class="t-str">"Node.js"</span>, <span class="t-str">"PostgreSQL"</span>, <span class="t-str">"Redis"</span>, <span class="t-str">"Docker"</span>],</div>
-      <div class="t-out">&nbsp;&nbsp;<span class="t-val">"currently"</span>: <span class="t-str">"Building NodeFlow API"</span>,</div>
-      <div class="t-out">&nbsp;&nbsp;<span class="t-val">"available"</span>: <span class="t-val">true</span></div>
-      <div class="t-out">}</div>
-      <div style="margin-top:0.5rem">
-        <span class="t-prompt">➜ </span>
-        <span class="t-cmd">git log --oneline -3</span>
-      </div>
-      <div class="t-out">a3f92c1 feat: #5 add Redis caching layer with 5min TTL</div>
-      <div class="t-out">b81de04 fix: #2 invalidate JWT tokens on logout via Redis</div>
-      <div class="t-out">c72aa18 feat: #3 migrate users endpoint to cursor pagination</div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-label">// tech stack</div>
-  <div class="section-title">What I work with</div>
-  <p class="section-desc">Technologies I use daily building production systems.</p>
-
-  <div class="skills-grid">
-    <div class="skill-card">
-      <div class="skill-card-header">
-        <div class="skill-icon" style="background:rgba(63,185,80,0.1)">🟢</div>
-        <div>
-          <div class="skill-card-title">Backend</div>
-          <div class="skill-card-sub">Server & API development</div>
+    <section class="section" id="about">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div class="section-index">01 / A little context</div>
+          <h2 class="section-title">Curiosity is the starting point.<br><em>Building is how I learn.</em></h2>
+        </div>
+        <div class="about-grid reveal">
+          <div class="about-note">A practical<br>kind of curiosity</div>
+          <div class="about-copy">
+            <p>I'm an independent developer focused on <strong>generative AI, Python engineering, and open-source software</strong>. Most of my learning happens by building, testing, breaking things, reading the source, and trying again.</p>
+            <p>My work ranges from OpenAI-compatible infrastructure and AI-assisted developer tools to projects that make contributing to open source less intimidating. I enjoy the space where useful ideas meet careful implementation.</p>
+            <p>I don't think good engineering is about adding complexity. It's about making the next step clearer, safer, and easier for someone else.</p>
+          </div>
+        </div>
+        <div class="principles reveal">
+          <article class="principle"><div class="principle-num">01 / BUILD</div><h3>Useful over flashy</h3><p>Start with a real problem. Keep the solution focused.</p></article>
+          <article class="principle"><div class="principle-num">02 / SHARE</div><h3>Open by default</h3><p>Document the work and make it easier for others to join.</p></article>
+          <article class="principle"><div class="principle-num">03 / IMPROVE</div><h3>Proof over claims</h3><p>Prefer working software, clear trade-offs, and honest progress.</p></article>
         </div>
       </div>
-      <div class="skill-tags">
-        <span class="tag">Node.js</span>
-        <span class="tag">Express</span>
-        <span class="tag">TypeScript</span>
-        <span class="tag">REST API</span>
-        <span class="tag">JWT Auth</span>
-        <span class="tag">WebSockets</span>
-      </div>
-    </div>
+    </section>
 
-    <div class="skill-card">
-      <div class="skill-card-header">
-        <div class="skill-icon" style="background:rgba(88,166,255,0.1)">🗄️</div>
-        <div>
-          <div class="skill-card-title">Database & Cache</div>
-          <div class="skill-card-sub">Data storage & performance</div>
+    <section class="section" id="work">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div class="section-index">02 / Selected work</div>
+          <h2 class="section-title">A few things I've put<br><em>into the world.</em></h2>
         </div>
-      </div>
-      <div class="skill-tags">
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">Redis</span>
-        <span class="tag">SQL</span>
-        <span class="tag">Migrations</span>
-        <span class="tag">Indexing</span>
-        <span class="tag">Query Optimization</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-header">
-        <div class="skill-icon" style="background:rgba(188,140,255,0.1)">⚙️</div>
-        <div>
-          <div class="skill-card-title">DevOps & CI/CD</div>
-          <div class="skill-card-sub">Deploy & automate everything</div>
-        </div>
-      </div>
-      <div class="skill-tags">
-        <span class="tag">Docker</span>
-        <span class="tag">GitHub Actions</span>
-        <span class="tag">Linux</span>
-        <span class="tag">Nginx</span>
-        <span class="tag">AWS</span>
-        <span class="tag">CI/CD Pipelines</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-header">
-        <div class="skill-icon" style="background:rgba(255,166,87,0.1)">🐍</div>
-        <div>
-          <div class="skill-card-title">Languages</div>
-          <div class="skill-card-sub">Code I write daily</div>
-        </div>
-      </div>
-      <div class="skill-tags">
-        <span class="tag">JavaScript</span>
-        <span class="tag">TypeScript</span>
-        <span class="tag">Python</span>
-        <span class="tag">SQL</span>
-        <span class="tag">Bash</span>
-        <span class="tag">YAML</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-header">
-        <div class="skill-icon" style="background:rgba(248,81,73,0.1)">🔐</div>
-        <div>
-          <div class="skill-card-title">Security</div>
-          <div class="skill-card-sub">Auth & hardening</div>
-        </div>
-      </div>
-      <div class="skill-tags">
-        <span class="tag">JWT</span>
-        <span class="tag">bcrypt</span>
-        <span class="tag">Rate Limiting</span>
-        <span class="tag">CORS</span>
-        <span class="tag">Helmet.js</span>
-        <span class="tag">Input Sanitization</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-header">
-        <div class="skill-icon" style="background:rgba(63,185,80,0.1)">🧪</div>
-        <div>
-          <div class="skill-card-title">Testing & Monitoring</div>
-          <div class="skill-card-sub">Quality & observability</div>
-        </div>
-      </div>
-      <div class="skill-tags">
-        <span class="tag">Jest</span>
-        <span class="tag">Supertest</span>
-        <span class="tag">Structured Logging</span>
-        <span class="tag">Health Checks</span>
-        <span class="tag">Error Tracking</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-label">// projects</div>
-  <div class="section-title">What I'm building</div>
-  <p class="section-desc">Production-grade projects with real architecture decisions.</p>
-
-  <div class="projects-grid">
-    <a href="https://github.com/P-r-e-m-i-u-m/daily-activity" class="project-card" target="_blank">
-      <div class="project-header">
-        <div>
-          <div class="project-name">📦 NodeFlow API</div>
-        </div>
-        <span style="color:var(--muted);font-size:1.2rem">↗</span>
-      </div>
-      <div class="project-desc">
-        High-performance REST API with Redis caching, JWT auth, rate limiting,
-        cursor pagination, and structured logging. Production-ready architecture.
-      </div>
-      <div class="skill-tags">
-        <span class="tag">Node.js</span>
-        <span class="tag">Redis</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">Docker</span>
-      </div>
-      <div class="project-footer">
-        <div class="project-lang">
-          <div class="lang-dot" style="background:#f1e05a"></div>
-          JavaScript
-        </div>
-        <div class="project-stars">⭐ Active</div>
-      </div>
-    </a>
-
-    <a href="https://github.com/P-r-e-m-i-u-m" class="project-card" target="_blank">
-      <div class="project-header">
-        <div>
-          <div class="project-name">🔐 Auth Service</div>
-        </div>
-        <span style="color:var(--muted);font-size:1.2rem">↗</span>
-      </div>
-      <div class="project-desc">
-        Standalone JWT authentication microservice with Redis token blacklisting,
-        refresh token rotation, and brute force protection.
-      </div>
-      <div class="skill-tags">
-        <span class="tag">JWT</span>
-        <span class="tag">Redis</span>
-        <span class="tag">bcrypt</span>
-        <span class="tag">TypeScript</span>
-      </div>
-      <div class="project-footer">
-        <div class="project-lang">
-          <div class="lang-dot" style="background:#3178c6"></div>
-          TypeScript
-        </div>
-        <div class="project-stars">⭐ Active</div>
-      </div>
-    </a>
-
-    <a href="https://github.com/P-r-e-m-i-u-m" class="project-card" target="_blank">
-      <div class="project-header">
-        <div>
-          <div class="project-name">📊 DB Query Optimizer</div>
-        </div>
-        <span style="color:var(--muted);font-size:1.2rem">↗</span>
-      </div>
-      <div class="project-desc">
-        Tool that analyzes PostgreSQL slow query logs and automatically suggests
-        composite indexes. Reduced query time from 4.2s to under 10ms.
-      </div>
-      <div class="skill-tags">
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">Python</span>
-        <span class="tag">SQL</span>
-      </div>
-      <div class="project-footer">
-        <div class="project-lang">
-          <div class="lang-dot" style="background:#3572A5"></div>
-          Python
-        </div>
-        <div class="project-stars">⭐ Active</div>
-      </div>
-    </a>
-  </div>
-</section>
-
-<!-- ACTIVITY -->
-<section id="activity">
-  <div class="section-label">// recent activity</div>
-  <div class="section-title">Latest commits & PRs</div>
-  <p class="section-desc">What I've been working on this week.</p>
-
-  <div class="activity-list">
-    <div class="activity-item">
-      <div class="activity-icon" style="background:rgba(63,185,80,0.1)">🔀</div>
-      <div class="activity-content">
-        <div class="activity-title">
-          Merged PR — <a href="https://github.com/P-r-e-m-i-u-m/daily-activity/pulls">
-            feat: #5 add Redis caching layer with 5min TTL on hot endpoints
+        <div class="project-grid">
+          <a class="project project-feature reveal" href="https://github.com/P-r-e-m-i-u-m/PROXY" target="_blank" rel="noreferrer">
+            <div>
+              <div class="project-top"><span class="project-type">AI infrastructure · TypeScript</span><span class="project-arrow">↗</span></div>
+              <h3>OpenAI-Compatible API Gateway</h3>
+              <p>A self-hosted gateway for routing AI traffic across compatible providers, with streaming, retries, health checks, and operational metrics.</p>
+              <div class="tags"><span class="tag">TypeScript</span><span class="tag">Streaming</span><span class="tag">Provider routing</span><span class="tag">Docker</span></div>
+            </div>
+            <div class="feature-side">One endpoint for multiple providers.<br>Designed to keep provider credentials server-side and make upstream failures easier to handle.</div>
+          </a>
+          <a class="project reveal" href="https://github.com/P-r-e-m-i-u-m/RepoDoctor" target="_blank" rel="noreferrer">
+            <div class="project-top"><span class="project-type">Developer tooling · Go</span><span class="project-arrow">↗</span></div>
+            <h3>RepoDoctor</h3>
+            <p>A local-first CLI that connects failed commands to the project files and configuration that may explain them. It suggests next steps and asks before running safe fixes.</p>
+            <div class="tags"><span class="tag">Go</span><span class="tag">Cobra</span><span class="tag">SQLite</span><span class="tag">CLI</span></div>
+          </a>
+          <a class="project reveal" href="https://github.com/P-r-e-m-i-u-m/worktrail" target="_blank" rel="noreferrer">
+            <div class="project-top"><span class="project-type">Developer workflow · Python</span><span class="project-arrow">↗</span></div>
+            <h3>Worktrail</h3>
+            <p>A local-first CLI for saving work sessions, Git context, notes, and next steps, so returning to a project doesn't mean reconstructing the whole day.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">CLI</span><span class="tag">Git</span><span class="tag">Local-first</span></div>
+          </a>
+          <a class="project reveal" href="https://github.com/P-r-e-m-i-u-m/open-source-starter-lab" target="_blank" rel="noreferrer">
+            <div class="project-top"><span class="project-type">Community · Open source</span><span class="project-arrow">↗</span></div>
+            <h3>Open Source Starter Lab</h3>
+            <p>A beginner-friendly contribution space with small issues, clear acceptance criteria, contributor guidance, and a path from first PR to first merge.</p>
+            <div class="tags"><span class="tag">GitHub</span><span class="tag">JavaScript</span><span class="tag">Automation</span><span class="tag">Community</span></div>
+          </a>
+          <a class="project reveal" href="https://github.com/P-r-e-m-i-u-m/humanAI" target="_blank" rel="noreferrer">
+            <div class="project-top"><span class="project-type">AI application · Next.js</span><span class="project-arrow">↗</span></div>
+            <h3>AI Coding Assistant</h3>
+            <p>A dark-themed coding and learning assistant with streaming responses, code highlighting, chat history, and memory that adapts to a learner's level.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Qwen</span><span class="tag">Streaming</span></div>
           </a>
         </div>
-        <div class="activity-time">daily-activity · today</div>
       </div>
-    </div>
+    </section>
 
-    <div class="activity-item">
-      <div class="activity-icon" style="background:rgba(248,81,73,0.1)">🐛</div>
-      <div class="activity-content">
-        <div class="activity-title">
-          Committed — <a href="https://github.com/P-r-e-m-i-u-m/daily-activity/commits">
-            fix: #2 improve JWT validation with Redis session caching
-          </a>
+    <section class="section" id="skills">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div class="section-index">03 / Capabilities</div>
+          <h2 class="section-title">Tools are only useful<br><em>when they solve something.</em></h2>
         </div>
-        <div class="activity-time">daily-activity · yesterday</div>
-      </div>
-    </div>
-
-    <div class="activity-item">
-      <div class="activity-icon" style="background:rgba(88,166,255,0.1)">✨</div>
-      <div class="activity-content">
-        <div class="activity-title">
-          Committed — <a href="https://github.com/P-r-e-m-i-u-m/daily-activity/commits">
-            feat: #3 implement cursor-based pagination for large datasets
-          </a>
+        <div class="skills-layout reveal">
+          <div class="about-note">Areas I work in<br>and keep exploring</div>
+          <div class="skills-list">
+            <div class="skill-row"><h3>Generative AI</h3><p>LLM applications, RAG workflows, prompt design, model APIs, streaming, provider integrations, and AI-assisted tools.</p></div>
+            <div class="skill-row"><h3>Backend & APIs</h3><p>Python, FastAPI, Flask, TypeScript, REST APIs, authentication, Docker, and service integration.</p></div>
+            <div class="skill-row"><h3>Data & retrieval</h3><p>SQL, Excel, Power Query, ETL fundamentals, vector search concepts, and working with structured data.</p></div>
+            <div class="skill-row"><h3>Open source & delivery</h3><p>Git, GitHub Actions, issue triage, contributor experience, documentation, testing, and iterative releases.</p></div>
+          </div>
         </div>
-        <div class="activity-time">daily-activity · 2 days ago</div>
       </div>
-    </div>
+    </section>
 
-    <div class="activity-item">
-      <div class="activity-icon" style="background:rgba(188,140,255,0.1)">🔧</div>
-      <div class="activity-content">
-        <div class="activity-title">
-          Opened Issue — <a href="https://github.com/P-r-e-m-i-u-m/daily-activity/issues">
-            Full table scan on orders table — query taking 4.2s at current volume
-          </a>
+    <section class="section" id="contact">
+      <div class="shell connect reveal">
+        <div>
+          <div class="eyebrow">04 / Start a conversation</div>
+          <h2 style="margin-top:25px">Have a good<br>problem? <em>Let's build.</em></h2>
         </div>
-        <div class="activity-time">daily-activity · 3 days ago</div>
-      </div>
-    </div>
-
-    <div class="activity-item">
-      <div class="activity-icon" style="background:rgba(255,166,87,0.1)">📦</div>
-      <div class="activity-content">
-        <div class="activity-title">
-          Committed — <a href="https://github.com/P-r-e-m-i-u-m/daily-activity/commits">
-            chore: scaffold production project structure with Docker and env config
-          </a>
+        <div class="connect-side">
+          <p>I'm interested in remote AI and software engineering opportunities, open-source collaborations, and people who enjoy making useful things. If something here connects with your work, I'd be glad to hear from you.</p>
+          <div class="hero-actions" style="margin:0 0 25px">
+            <a class="button primary" href="mailto:amanbaba9404522@gmail.com">Email me <span class="arrow">↗</span></a>
+          </div>
+          <div class="social-links">
+            <a href="https://github.com/P-r-e-m-i-u-m" target="_blank" rel="noreferrer">GITHUB ↗</a>
+            <a href="https://www.linkedin.com/in/syedabdul-aman-genai-developer/" target="_blank" rel="noreferrer">LINKEDIN ↗</a>
+            <a href="https://www.kaggle.com/aman114" target="_blank" rel="noreferrer">KAGGLE ↗</a>
+          </div>
         </div>
-        <div class="activity-time">daily-activity · 4 days ago</div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+  </main>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-label">// contact</div>
-  <div class="section-title">Get in touch</div>
-  <p class="section-desc">Open to work opportunities, collaborations, and interesting projects.</p>
+  <footer><div class="shell footer-inner"><span>© <span id="year"></span> Syed Abdul Aman</span><span>Built with curiosity. Refined with care.</span></div></footer>
 
-  <div class="contact-grid">
-    <a href="https://github.com/P-r-e-m-i-u-m" class="contact-card" target="_blank">
-      <div class="contact-icon" style="background:rgba(255,255,255,0.05)">🐙</div>
-      <div>
-        <div class="contact-label">GitHub</div>
-        <div class="contact-value">P-r-e-m-i-u-m</div>
-      </div>
-    </a>
-    <a href="mailto:amanbaba9404522@gmail.com" class="contact-card">
-      <div class="contact-icon" style="background:rgba(248,81,73,0.1)">✉️</div>
-      <div>
-        <div class="contact-label">Email</div>
-        <div class="contact-value">amanbaba9404522@gmail.com</div>
-      </div>
-    </a>
-  </div>
-</section>
-
-<footer>
-  <p>Built with <code>&lt;/&gt;</code> by P-r-e-m-i-u-m · Deployed on GitHub Pages</p>
-</footer>
-
+  <script>
+    const menuButton = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
+    menuButton.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.textContent = open ? "CLOSE −" : "MENU +";
+    });
+    navLinks.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.textContent = "MENU +";
+    }));
+    document.getElementById("year").textContent = new Date().getFullYear();
+    if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+    } else {
+      document.querySelectorAll(".reveal").forEach(element => element.classList.add("visible"));
+    }
+  </script>
 </body>
 </html>
